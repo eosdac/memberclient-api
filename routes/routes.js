@@ -44,7 +44,7 @@ var appRouter = function (app, db) {
 
     app.post("/msigproposals", async function (req, res) {
         //for now get them all...
-        db.collection('msigproposals').find(req.body).sort().skip(0).limit(0).toArray((err, result) => {
+        db.collection('msigproposals').find(req.body).sort({block_time : -1}).skip(0).limit(0).toArray((err, result) => {
             if (err) {
                 res.status(400).send({ message: 'invalid accounts supplied' }) ;
                 return;
