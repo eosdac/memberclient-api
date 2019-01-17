@@ -46,7 +46,7 @@ var appRouter = function (app, db) {
         //for now get them all...
         db.collection('msigproposals').find(req.body).sort({block_time : -1}).skip(0).limit(0).toArray((err, result) => {
             if (err) {
-                res.status(400).send({ message: 'invalid accounts supplied' }) ;
+                res.status(400).send({ message: 'a database error occured' }) ;
                 return;
             };
             res.status(200).send(result);
