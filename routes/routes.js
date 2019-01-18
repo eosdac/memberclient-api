@@ -43,14 +43,17 @@ var appRouter = function (app, db) {
     });
 
     app.post("/msigproposals", async function (req, res) {
-        //for now get them all...
-        db.collection('msigproposals').find(req.body).sort({block_time : -1}).skip(0).limit(0).toArray((err, result) => {
-            if (err) {
-                res.status(400).send({ message: 'a database error occured' }) ;
-                return;
-            };
-            res.status(200).send(result);
-        });
+        try{
+            let result = await db.collection('msigproposals').find(req.body.find).sort({block_time : -1}).skip(req.body.skip).limit(req.body.limit);
+            
+            let total = await result.count();
+            let data = await result.toArray();
+            res.status(200).send({total: total, data: data } );
+        }
+        catch(e){
+            res.status(400).send({ message: 'a database error occured' }) ;
+        }
+
     });
 
 }
